@@ -5,5 +5,3 @@ import 'app/proveiders.dart';
 void main() {
   runApp(const AppProviders(child: App()));
 }
-
-
