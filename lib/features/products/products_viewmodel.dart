@@ -6,7 +6,7 @@ import '../../domain/entities/product.dart';
 class ProductsViewModel extends ChangeNotifier {
   final ProductsApi api;
 
-  ProductsViewModel(this.api);
+  ProductsViewModel({required this.api});
 
   bool isLoading = false;
   String? error;
