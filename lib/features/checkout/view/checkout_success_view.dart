@@ -22,7 +22,10 @@ class CheckoutSuccessView extends StatelessWidget {
     final total = subtotal + freight;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Pedido realizado')),
+      appBar: AppBar(
+        title: const Text('Pedido realizado'),
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         children: [
           Expanded(
@@ -32,7 +35,11 @@ class CheckoutSuccessView extends StatelessWidget {
                 AppCard(
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle, size: 28, color: Colors.green),
+                      const Icon(
+                        Icons.check_circle,
+                        size: 28,
+                        color: Colors.green,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -47,8 +54,8 @@ class CheckoutSuccessView extends StatelessWidget {
                 Text(
                   'Itens',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w800,
-                      ),
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 ...cart.items.map((item) {
