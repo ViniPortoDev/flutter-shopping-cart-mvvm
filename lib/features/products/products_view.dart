@@ -10,15 +10,15 @@ class ProductsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch<ProductsViewModel>();
-    final cart = context.watch<CartStore>();
+    final viewModel = context.watch<ProductsViewModel>();
+    final cartStore = context.watch<CartStore>();
 
-    if (vm.isLoading) {
+    if (viewModel.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    if (vm.error != null) {
-      return Scaffold(body: Center(child: Text(vm.error!)));
+    if (viewModel.error != null) {
+      return Scaffold(body: Center(child: Text(viewModel.error!)));
     }
 
     return Scaffold(
@@ -34,10 +34,10 @@ class ProductsView extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        itemCount: vm.products.length,
+        itemCount: viewModel.products.length,
         itemBuilder: (_, index) {
-          final product = vm.products[index];
-          final inCart = cart.contains(product);
+          final product = viewModel.products[index];
+          final inCart = cartStore.cart.contains(product);
 
           return ListTile(
             leading: Image.network(product.image, width: 50),
@@ -47,7 +47,7 @@ class ProductsView extends StatelessWidget {
                 ? _QuantityControl(product)
                 : ElevatedButton(
                     onPressed: () {
-                      cart.add(product);
+                      cartStore.add(product);
                     },
                     child: const Text('Adicionar'),
                   ),
@@ -65,20 +65,22 @@ class _QuantityControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<CartStore>();
-    final item = cart.cart.items.firstWhere((e) => e.product.id == product.id);
+    final cartStore = context.watch<CartStore>();
+    final cart = cartStore.cart;
+
+    final item = cart.items.firstWhere((item) => item.product.id == product.id);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
           icon: const Icon(Icons.remove),
-          onPressed: () => cart.decrement(product),
+          onPressed: () => cartStore.decrement(product),
         ),
         Text(item.quantity.toString()),
         IconButton(
           icon: const Icon(Icons.add),
-          onPressed: () => cart.add(product),
+          onPressed: () => cartStore.add(product),
         ),
       ],
     );
