@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shopping_cart_mvvm/app/routes.dart';
 import 'package:provider/provider.dart';
 
 import '../domain/entities/product.dart';
@@ -25,11 +26,36 @@ class ProductsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Produtos'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart');
-            },
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.shopping_cart, size: 32),
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.cart);
+                },
+              ),
+              if (cartStore.cart.totalItems > 0)
+                Positioned(
+                  right: 6,
+                  top: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Text(
+                      cartStore.cart.totalItems.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
         ],
       ),
