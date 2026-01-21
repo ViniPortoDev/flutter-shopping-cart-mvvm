@@ -13,13 +13,13 @@ class ProductsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = context.watch<ProductsViewModel>();
     final cartStore = context.watch<CartStore>();
-
-    if (cartStore.error != null) {
+    final err = cartStore.error;
+    if (err != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final msg = cartStore.error!;
+        if (!context.mounted) return;
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(msg)));
+        ).showSnackBar(SnackBar(content: Text(err)));
         cartStore.clearError();
       });
     }
