@@ -14,6 +14,16 @@ class ProductsView extends StatelessWidget {
     final viewModel = context.watch<ProductsViewModel>();
     final cartStore = context.watch<CartStore>();
 
+    if (cartStore.error != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final msg = cartStore.error!;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(msg)));
+        cartStore.clearError();
+      });
+    }
+
     if (viewModel.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
