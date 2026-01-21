@@ -12,12 +12,13 @@ class CartView extends StatelessWidget {
     final store = context.watch<CartStore>();
     final cart = store.cart;
 
-    if (store.error != null) {
+    final error = store.error;
+    if (error != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final msg = store.error!;
+        if (!context.mounted) return;
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(msg)));
+        ).showSnackBar(SnackBar(content: Text(error)));
         store.clearError();
       });
     }
