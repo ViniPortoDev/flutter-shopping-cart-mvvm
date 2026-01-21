@@ -1,12 +1,16 @@
 import 'dart:math';
 
-class CartApi {
-  Future<void> removeItem() async {
-    await Future.delayed(const Duration(seconds: 1));
+import '../../../../core/errors/app_exception.dart';
 
-    final shouldFail = Random().nextBool();
-    if (shouldFail) {
-      throw Exception('Erro ao remover item do carrinho');
+class CartApi {
+  final _rand = Random();
+
+  Future<void> removeItem(int productId) async {
+    await Future.delayed(const Duration(milliseconds: 800));
+
+    final fail = _rand.nextInt(4) == 0;
+    if (fail) {
+      throw const AppException('Erro ao remover item');
     }
   }
 }
