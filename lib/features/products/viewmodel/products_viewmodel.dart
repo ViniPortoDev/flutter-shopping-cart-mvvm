@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../core/result/result.dart';
 import '../data/api/products_api.dart';
 import '../domain/entities/product.dart';
 
@@ -17,13 +18,16 @@ class ProductsViewModel extends ChangeNotifier {
     error = null;
     notifyListeners();
 
-    try {
-      products = await api.fetchProducts();
-    } catch (e) {
-      error = 'Erro ao carregar produtos';
-    } finally {
-      isLoading = false;
-      notifyListeners();
+    final result = await resultOf(() => api.fetchProducts());
+
+    switch (result) {
+      case Success(value: final list):
+        products = list;
+      case Failure(message: final msg):
+        error = msg;
     }
+
+    isLoading = false;
+    notifyListeners();
   }
 }
