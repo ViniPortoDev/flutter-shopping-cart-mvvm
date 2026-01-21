@@ -15,10 +15,16 @@ Consome a FakeStore API e simula serviços (remoção com erro e checkout com de
 - “Novo pedido” limpa o carrinho e volta ao catálogo
 
 ## 🧱 Arquitetura (MVVM)
-- **View (UI)**: Widgets/telas. Renderiza e dispara ações.
-- **ViewModel/Store (ChangeNotifier)**: controla estado (loading/erro/dados) e chama serviços.
-- **Services/APIs (data layer)**: chamadas HTTP e simulações (delay/erro).
-- **Domain**: entidades e regras (ex.: `Cart` com limite de 10 produtos diferentes).
+- **View (UI)**: telas e widgets
+- **ViewModel/Store (`ChangeNotifier`)**: estado (loading/erro/dados) + ações
+- **Data (APIs/DTO/Mappers)**: integração HTTP e serviços simulados
+- **Domain (Entities)**: regras e entidades (`Cart`, `CartItem`, `Product`)
+- **Core**: `Result` + `AppException` para padronizar retorno/erros
+- **Design System**: tema e widgets reutilizáveis (cards/linhas/itens)
+
+## 📌 Regras importantes
+- Carrinho permite no máximo **10 produtos diferentes** (IDs distintos).
+- Quantidade total pode ser maior que 10 (ex.: 1 produto com quantidade 11).
 
 Fluxo:
 UI -> ViewModel/Store -> Services/APIs
@@ -47,6 +53,20 @@ UI -> ViewModel/Store -> Services/APIs
 - Dart SDK: ^3.8.1
 - provider: ^6.1.5+1
 - http: ^1.6.0
+
+## 🖼️ Screenshots
+
+- **Catálogo (Produtos)**  
+  ![Catálogo](assets/images/products.png)
+
+- **Carrinho**  
+  ![Carrinho](assets/images/cart.png)
+
+- **Resumo do pedido (Checkout)**  
+  ![Checkout](assets/images/checkout.png)
+
+- **Pedido realizado**  
+  ![Pedido realizado](assets/images/order_placed.png)
 
 ## 🚀 Como rodar
 ```bash
