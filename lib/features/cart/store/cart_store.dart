@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 
+import '../data/api/cart_api.dart';
 import '../domain/entities/cart.dart';
-import '../domain/entities/product.dart';
+import '../../products/domain/entities/product.dart';
 
 class CartStore extends ChangeNotifier {
+  final CartApi api;
+  CartStore({required this.api});
   Cart _cart = Cart();
   bool isLoading = false;
   String? error;

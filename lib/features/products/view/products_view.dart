@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../domain/entities/product.dart';
-import '../../stores/cart_store.dart';
-import 'products_viewmodel.dart';
+import '../domain/entities/product.dart';
+import '../../cart/store/cart_store.dart';
+import '../viewmodel/products_viewmodel.dart';
 
 class ProductsView extends StatelessWidget {
   const ProductsView({super.key});

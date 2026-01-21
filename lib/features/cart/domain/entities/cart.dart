@@ -1,5 +1,5 @@
 import 'cart_item.dart';
-import 'product.dart';
+import '../../../products/domain/entities/product.dart';
 
 class Cart {
   static const maxDifferentProducts = 10;

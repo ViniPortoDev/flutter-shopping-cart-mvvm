@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../../data/api/products_api.dart';
-import '../../domain/entities/product.dart';
+import '../data/api/products_api.dart';
+import '../domain/entities/product.dart';
 
 class ProductsViewModel extends ChangeNotifier {
   final ProductsApi api;

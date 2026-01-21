@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/api/checkout_api.dart';
-import '../../stores/cart_store.dart';
-import 'checkout_view.dart';
-import 'checkout_viewmodel.dart';
+import 'data/api/checkout_api.dart';
+import '../cart/store/cart_store.dart';
+import 'view/checkout_view.dart';
+import 'viewmodel/checkout_viewmodel.dart';
 
 class CheckoutProvider extends StatelessWidget {
   const CheckoutProvider({super.key});

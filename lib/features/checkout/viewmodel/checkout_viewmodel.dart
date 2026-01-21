@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../../data/api/checkout_api.dart';
-import '../../stores/cart_store.dart';
+import '../data/api/checkout_api.dart';
+import '../../cart/store/cart_store.dart';
 
 class CheckoutViewModel extends ChangeNotifier {
   final CheckoutApi api;
