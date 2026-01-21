@@ -1,5 +1,6 @@
+import '../../../../core/errors/app_exception.dart';
 import 'cart_item.dart';
-import 'product.dart';
+import '../../../products/domain/entities/product.dart';
 
 class Cart {
   static const maxDifferentProducts = 10;
@@ -21,17 +22,15 @@ class Cart {
   Cart add(Product product) {
     if (!_items.containsKey(product.id) &&
         _items.length >= maxDifferentProducts) {
-      throw Exception('Limite de produtos diferentes atingido');
+      throw const AppException('Limite de produtos diferentes atingido');
     }
 
     final updatedItems = Map<int, CartItem>.from(_items);
 
     if (updatedItems.containsKey(product.id)) {
-      updatedItems[product.id] =
-          updatedItems[product.id]!.increment();
+      updatedItems[product.id] = updatedItems[product.id]!.increment();
     } else {
-      updatedItems[product.id] =
-          CartItem(product: product, quantity: 1);
+      updatedItems[product.id] = CartItem(product: product, quantity: 1);
     }
 
     return Cart(updatedItems);
@@ -49,6 +48,13 @@ class Cart {
       updatedItems[product.id] = item.decrement();
     }
 
+    return Cart(updatedItems);
+  }
+
+  Cart remove(Product product) {
+    if (!_items.containsKey(product.id)) return this;
+    final updatedItems = Map<int, CartItem>.from(_items);
+    updatedItems.remove(product.id);
     return Cart(updatedItems);
   }
 
