@@ -1,80 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../app/routes.dart';
-import '../viewmodel/checkout_viewmodel.dart';
+import 'package:flutter_shopping_cart_mvvm/app/routes.dart';
+import 'package:flutter_shopping_cart_mvvm/design_system/widgets/app_card.dart';
+import 'package:flutter_shopping_cart_mvvm/design_system/widgets/price_line.dart';
+import 'package:flutter_shopping_cart_mvvm/features/checkout/viewmodel/checkout_viewmodel.dart';
 
 class CheckoutView extends StatelessWidget {
   const CheckoutView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch<CheckoutViewModel>();
+    final viewModel = context.watch<CheckoutViewModel>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Resumo do pedido')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
               children: [
-                const Text('Subtotal'),
-                Text('R\$ ${vm.subtotal.toStringAsFixed(2)}'),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Frete'),
-                Text('R\$ ${vm.freight.toStringAsFixed(2)}'),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Total',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                AppCard(
+                  child: Column(
+                    children: [
+                      PriceLine(
+                        label: 'Subtotal',
+                        value: 'R\$ ${viewModel.subtotal.toStringAsFixed(2)}',
+                      ),
+                      const SizedBox(height: 10),
+                      PriceLine(
+                        label: 'Frete',
+                        value: 'R\$ ${viewModel.freight.toStringAsFixed(2)}',
+                      ),
+                      const SizedBox(height: 12),
+                      Divider(color: Theme.of(context).dividerColor),
+                      const SizedBox(height: 12),
+                      PriceLine(
+                        label: 'Total',
+                        value: 'R\$ ${viewModel.total.toStringAsFixed(2)}',
+                        bold: true,
+                      ),
+                    ],
+                  ),
                 ),
-                Text(
-                  'R\$ ${vm.total.toStringAsFixed(2)}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const Spacer(),
-            vm.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ElevatedButton(
-                    onPressed: () async {
-                      final ok = await vm.confirmPayment();
+                const Spacer(),
+                SafeArea(
+                  top: false,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    onPressed: viewModel.isLoading
+                        ? null
+                        : () async {
+                            final ok = await viewModel.confirmPayment();
 
-                      if (!context.mounted) return;
+                            if (!context.mounted) return;
 
-                      if (!ok) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(vm.error ?? 'Erro no pagamento'),
-                          ),
-                        );
-                        return;
-                      }
+                            if (!ok) {
+                              final msg = viewModel.error ?? 'Falha ao processar pagamento';
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(msg)),
+                              );
+                              return;
+                            }
 
-                      Navigator.pushReplacementNamed(
-                        context,
-                        Routes.success,
-                        arguments: vm.freight,
-                      );
-                    },
+                            Navigator.pushReplacementNamed(
+                              context,
+                              Routes.success,
+                              arguments: viewModel.freight,
+                            );
+                          },
                     child: const Text('Confirmar pagamento'),
                   ),
-          ],
-        ),
+                ),
+              ],
+            ),
+          ),
+          if (viewModel.isLoading)
+            Container(
+              color: Colors.black26,
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+        ],
       ),
     );
   }

@@ -8,7 +8,7 @@ class CheckoutApi {
 
     final success = Random().nextBool();
     if (!success) {
-      throw const AppException('Pagamento recusado');
+      throw const AppException('Falha ao processar pagamento');
     }
   }
 }
