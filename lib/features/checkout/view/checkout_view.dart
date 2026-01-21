@@ -62,16 +62,19 @@ class CheckoutView extends StatelessWidget {
                             if (!context.mounted) return;
 
                             if (!ok) {
-                              final msg = viewModel.error ?? 'Falha ao processar pagamento';
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(msg)),
-                              );
+                              final msg =
+                                  viewModel.error ??
+                                  'Falha ao processar pagamento';
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(msg)));
                               return;
                             }
 
-                            Navigator.pushReplacementNamed(
+                            Navigator.pushNamedAndRemoveUntil(
                               context,
                               Routes.success,
+                              ModalRoute.withName(Routes.products),
                               arguments: viewModel.freight,
                             );
                           },
