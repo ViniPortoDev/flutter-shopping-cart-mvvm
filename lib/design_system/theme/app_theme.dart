@@ -10,7 +10,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
-      scaffoldBackgroundColor: const Color(0xFFF6F7FB), // cinza bem suave
+      scaffoldBackgroundColor: const Color(0xFFF6F7FB),
       dividerColor: Colors.black12,
 
       appBarTheme: AppBarTheme(
