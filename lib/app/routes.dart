@@ -1,6 +1,6 @@
-import '../features/cart/cart_provider.dart';
+import '../features/cart/view/cart_view.dart';
 import '../features/checkout/checkout_provider.dart';
-import '../features/checkout/checkout_success_view.dart';
+import '../features/checkout/view/checkout_success_view.dart';
 import '../features/products/products_provider.dart';
 
 class Routes {
@@ -13,7 +13,7 @@ class Routes {
 class AppRoutes {
   static final routes = {
     Routes.products: (_) => const ProductsProvider(),
-    Routes.cart: (_) => const CartProvider(),
+    Routes.cart: (_) => const CartView(),
     Routes.checkout: (_) => const CheckoutProvider(),
     Routes.success: (_) => const CheckoutSuccessView(),
   };
