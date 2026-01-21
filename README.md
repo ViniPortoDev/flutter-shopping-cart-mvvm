@@ -1,16 +1,54 @@
-# flutter_shopping_cart_mvvm
+# Flutter Shopping Cart (MVVM + ChangeNotifier)
 
-A new Flutter project.
+Aplicativo de carrinho de compras desenvolvido em Flutter seguindo MVVM com `ChangeNotifier`.
+Consome a FakeStore API e simula serviços (remoção com erro e checkout com delay).
 
-## Getting Started
+## ✅ Funcionalidades
+- Catálogo de produtos (FakeStore API)
+- Carrinho global (estado em memória)
+- Limite de 10 produtos diferentes no carrinho
+- Controle de quantidade (+/−)
+- Remover item com erro simulado via serviço
+- Resumo do pedido (checkout) com subtotal + frete simulado + total
+- Confirmação de pagamento (serviço simulado com delay e chance de falha)
+- Tela de pedido finalizado com itens + subtotal + frete + total
+- “Novo pedido” limpa o carrinho e volta ao catálogo
 
-This project is a starting point for a Flutter application.
+## 🧱 Arquitetura (MVVM)
+- **View (UI)**: Widgets/telas. Renderiza e dispara ações.
+- **ViewModel/Store (ChangeNotifier)**: controla estado (loading/erro/dados) e chama serviços.
+- **Services/APIs (data layer)**: chamadas HTTP e simulações (delay/erro).
+- **Domain**: entidades e regras (ex.: `Cart` com limite de 10 produtos diferentes).
 
-A few resources to get you started if this is your first Flutter project:
+Fluxo:
+UI -> ViewModel/Store -> Services/APIs
+              |
+            Domain
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🧭 Fluxo de telas
+1. **Produtos** (`/`)
+2. **Carrinho** (`/cart`)
+3. **Resumo do pedido / Checkout** (`/checkout`)
+4. **Pedido finalizado** (`/success`)
+   - exibe itens + subtotal + frete + total
+   - “Novo pedido” limpa carrinho e volta para `/`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🗺️ Rotas
+- `/` (Catálogo)
+- `/cart` (Carrinho)
+- `/checkout` (Resumo/Checkout)
+- `/success` (Pedido finalizado)
+
+## 🔗 API
+- Produtos: `https://fakestoreapi.com/products`
+
+## 🧰 Stack
+- Flutter 3.32.8
+- Dart SDK: ^3.8.1
+- provider: ^6.1.5+1
+- http: ^1.6.0
+
+## 🚀 Como rodar
+```bash
+flutter pub get
+flutter run
