@@ -15,7 +15,7 @@ class CheckoutProvider extends StatelessWidget {
       create: (context) => CheckoutViewModel(
         api: CheckoutApi(),
         cartStore: context.read<CartStore>(),
-      ),
+      )..init(),
       child: const CheckoutView(),
     );
   }
